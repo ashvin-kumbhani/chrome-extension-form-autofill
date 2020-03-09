@@ -6,8 +6,14 @@ console.log("Running bacckground...")
 // });
 
 chrome.browserAction.onClicked.addListener(buttonClicked)
+let runContent4 = false
+
 var arizonaLink = "https://secure.servicearizona.com/gwRegister/gateway/Utils?action=login&url=https://secure.servicearizona.com/secure/gateway/MyAccount!3F!action!3D!accessTab&msg="
 var userHomeUrl = "https://secure.servicearizona.com/gwRegister/gateway/UserHome"
+var secureGatewayUrl = "https://secure.servicearizona.com/secure/gateway/MyAccount?action=accessTab"
+var DealerServiceUrl = "https://secure.servicearizona.com/az/mvd/dealer/webapp/dealer/start.do"
+var issueTRPUrl = "https://secure.servicearizona.com/az/mvd/dealer/webapp/dealer/authorizedTRP.do"
+
 var extensionButtonClicked = false
 
 function buttonClicked(tab) {
@@ -29,6 +35,19 @@ chrome.tabs.onUpdated.addListener(function(tabId,changeInfo,tab){
 
 		if (tab.url === userHomeUrl) {
 			chrome.tabs.executeScript(tab.id, {file: "content2.js"} );
+		}
+
+		if (tab.url === secureGatewayUrl && runContent4 === false) {
+			chrome.tabs.executeScript(tab.id, {file: "content3.js"} );
+			runContent4 = true
+		}
+
+		if (tab.url === DealerServiceUrl) {
+			chrome.tabs.executeScript(tab.id, {file: "content4.js"} );
+		}
+
+		if (tab.url === issueTRPUrl) {
+			chrome.tabs.executeScript(tab.id, {file: "content5.js"} );
 		}
 	}
 });
