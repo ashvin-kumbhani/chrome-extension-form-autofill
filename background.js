@@ -15,6 +15,7 @@ var DealerServiceUrl = "https://secure.servicearizona.com/az/mvd/dealer/webapp/d
 var issueTRPUrl = "https://secure.servicearizona.com/az/mvd/dealer/webapp/dealer/authorizedTRP.do"
 var TRPUrl = "https://secure.servicearizona.com/az/mvd/dealer/webapp/dealer/trp/issue.do"
 var ownerInfoUrl = "https://secure.servicearizona.com/az/mvd/dealer/webapp/enterOwnerInfo.do"
+var registrationUrl = "https://secure.servicearizona.com/az/mvd/dealer/webapp/showOwnerInfo.do"
 
 var payload = null
 
@@ -85,6 +86,10 @@ chrome.tabs.onUpdated.addListener(function(tabId,changeInfo,tab){
 				chrome.tabs.sendMessage(tab.id, payload)
 			}
 			chrome.tabs.executeScript(tab.id, {file: "content7.js"} );
+		}
+
+		if (tab.url === registrationUrl) {
+			chrome.tabs.executeScript(tab.id, {file: "content8.js"} );
 		}
 	}
 });
