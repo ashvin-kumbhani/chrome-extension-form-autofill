@@ -6,30 +6,29 @@ console.log("Running bacckground...")
 // });
 
 chrome.browserAction.onClicked.addListener(buttonClicked)
+var arizonaLink = "https://secure.servicearizona.com/gwRegister/gateway/Utils?action=login&url=https://secure.servicearizona.com/secure/gateway/MyAccount!3F!action!3D!accessTab&msg="
+var userHomeUrl = "https://secure.servicearizona.com/gwRegister/gateway/UserHome"
+var extensionButtonClicked = false
 
 function buttonClicked(tab) {
-
 	console.log("button clicked", tab)
-	let msg = {
-		message: "Mesage is here!!!"
-	}
-	chrome.tabs.sendMessage(tab.id, tab)
-	// First page autofill
-	chrome.tabs.executeScript(tabId, {file: "content.js"} );
-
-	// }, 3000)
-	// window.location.reload(false);
-	// window.location.replace('http://www.google.com')
+	chrome.tabs.create({ url: arizonaLink }, function(tab2) {
+    console.log(tab2)
+    extensionButtonClicked = true
+  })
 }
 
 chrome.tabs.onUpdated.addListener(function(tabId,changeInfo,tab){
 	console.log(tab, "<<<<----------tab")
-	let userHomeUrl = "https://secure.servicearizona.com/gwRegister/gateway/UserHome"
+	chrome.tabs.sendMessage(tab.id, tab)
+	if (extensionButtonClicked) {
+		// chrome.tabs.executeScript(tab2.id, {file: "content.js"})
+		if (tab.url === arizonaLink && performance.navigation.type === 0) {
+			chrome.tabs.executeScript(tab.id, {file: "content.js"} );
+		}
 
-	if (tab.url === userHomeUrl) {
-		chrome.tabs.executeScript(tabId, {file: "content2.js"} );
+		if (tab.url === userHomeUrl) {
+			chrome.tabs.executeScript(tab.id, {file: "content2.js"} );
+		}
 	}
-  // if (){
-  //   chrome.tabs.executeScript(tabId, {file: "program.js"} );
-  // }
 });

@@ -15,17 +15,17 @@ function gotMessage(message, sender, sendResponse) {
 	// chrome.tabs.sendMessage(tab.id, payload)
 
 	// Fill email
-	setTimeout(function(){
+	setTimeout(function() {
 		document.getElementsByName('username')[0].value = 'james@usedvwaudi.com'
 	}, 2000)
 
 	// Fill password
 	setTimeout(function(){
 		document.getElementsByName('password')[0].value = 'james110'
-	}, 2000)
+	}, 4000)
 
 	// Click the login button
 	setTimeout(function(){
 		document.getElementsByClassName('button100First')[0].click()
-	}, 2000)
+	}, 5000)
 }
