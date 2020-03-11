@@ -73,6 +73,7 @@ chrome.tabs.onUpdated.addListener(function(tabId,changeInfo,tab){
 		}
 
 		if (tab.url === TRPUrl) {
+			console.log(payload)
 			if (payload != null) {
 				console.log("payload------->", payload)
 				chrome.tabs.sendMessage(tab.id, payload)

@@ -12,10 +12,21 @@ function gotMessage(msg, response, sender) {
 		let month = dobArr[1]
 		let yearArr = dobArr[2].split(' ')
 		let year = yearArr[0]
-		document.getElementsByName("driverLicense1")[0].value = liscenceNo
-		document.getElementsByName("monthOfBirth1")[0].value = date
-		document.getElementsByName("dayOfBirth1")[0].value = month
-		document.getElementsByName("yearOfBirth1")[0].value = year
-		document.getElementsByName("continue")[0].click()
+
+		setTimeout(function(){
+			document.getElementsByName("driverLicense1")[0].value = liscenceNo
+		}, 1000)
+		setTimeout(function(){
+			document.getElementsByName("monthOfBirth1")[0].value = date
+		}, 2000)
+		setTimeout(function(){
+			document.getElementsByName("dayOfBirth1")[0].value = month
+		}, 3000)
+		setTimeout(function(){
+			document.getElementsByName("yearOfBirth1")[0].value = year
+		}, 4000)
+		setTimeout(function(){
+			document.getElementsByName("continue")[0].click()
+		}, 5000)
 	}
 }

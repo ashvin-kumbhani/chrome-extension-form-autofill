@@ -14,11 +14,22 @@ function gotMessage(msg, response, sender) {
 	if (msg.payload) {
 		// if (msg.payload.from === "vin") {
 		console.log(msg)
-		document.getElementsByName("vinNumber")[0].value = msg.payload.vin
-		document.getElementsByName("vehPriColor")[0].value = mapColor(msg.payload.color)
-		document.getElementsByName("transferPlate")[1].click()
-		document.getElementsByName("ownerQuestion")[1].click()
-		document.getElementsByClassName("button140First")[0].click()
+    setTimeout(function(){
+      document.getElementsByName("vinNumber")[0].value = msg.payload.vin
+    }, 1000)
+    setTimeout(function(){
+      document.getElementsByName("vehPriColor")[0].value = mapColor(msg.payload.color)
+    }, 2000)
+    setTimeout(function(){
+      document.getElementsByName("transferPlate")[1].click()
+    }, 3000)
+    setTimeout(function(){
+      document.getElementsByName("ownerQuestion")[1].click()
+    }, 4000)
+    setTimeout(function(){
+      document.getElementsByClassName("button140First")[0].click()
+    }, 5000)
+
 		}
 		// var port = chrome.runtime.connect({name: "knockknock2"});
 		// port.postMessage({payload: msg});
