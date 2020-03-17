@@ -9,6 +9,7 @@ console.log("Running bacckground...")
 let runScript = null
 let runContent4 = false
 let runContent6 = false
+let counter = 0
 
 var arizonaLink = "https://secure.servicearizona.com/gwRegister/gateway/Utils?action=login&url=https://secure.servicearizona.com/secure/gateway/MyAccount!3F!action!3D!accessTab&msg="
 var userHomeUrl = "https://secure.servicearizona.com/gwRegister/gateway/UserHome"
@@ -19,6 +20,7 @@ var TRPUrl = "https://secure.servicearizona.com/az/mvd/dealer/webapp/dealer/trp/
 var ownerInfoUrl = "https://secure.servicearizona.com/az/mvd/dealer/webapp/enterOwnerInfo.do"
 var registrationUrl = "https://secure.servicearizona.com/az/mvd/dealer/webapp/showOwnerInfo.do"
 var confirmInfoUrl = "https://secure.servicearizona.com/az/mvd/dealer/webapp/showConfirmInfo.do"
+var alreadyLogin = "https://secure.servicearizona.com/gwRegister/gateway/Utils?action=login&url=https://secure.servicearizona.com/secure/gateway/MyAccount!3F!action!3D!accessTab&msg="
 
 var payload = null
 
@@ -36,6 +38,7 @@ chrome.runtime.onConnect.addListener(function(port) {
   	port.onMessage.addListener(function(msg) {
 	    console.log("------------>msg-->", msg)
 	    if (msg.payload.from === "trp") {
+	    	counter = 0
 	    	runScript = msg.payload.from
 	    	buttonClickedTrp(msg.payload.tabInfo)
 	    }
@@ -73,7 +76,11 @@ function buttonClickedTrp (tab) {
 chrome.tabs.onUpdated.addListener(function(tabId,changeInfo,tab){
 	if (runScript === "trp") {
 		console.log(tab, "<<<<----------tab")
-		chrome.tabs.sendMessage(tab.id, tab)
+		if (counter < 5) {
+			chrome.tabs.sendMessage(tab.id, tab)
+			counter++
+		}
+
 		if (extensionButtonClicked) {
 			// chrome.tabs.executeScript(tab2.id, {file: "content.js"})
 			if (tab.url === arizonaLink && performance.navigation.type === 0) {
@@ -115,11 +122,19 @@ chrome.tabs.onUpdated.addListener(function(tabId,changeInfo,tab){
 			}
 
 			if (tab.url === registrationUrl) {
+				if (payload != null) {
+					console.log("payload------->", payload)
+					chrome.tabs.sendMessage(tab.id, payload)
+				}
 				chrome.tabs.executeScript(tab.id, {file: "content8.js"} );
 			}
 
 			if (tab.url === confirmInfoUrl) {
 				chrome.tabs.executeScript(tab.id, {file: "content9.js"} );
+			}
+
+			if (tab.url === alreadyLogin) {
+				chrome.tabs.executeScript(tab.id, {file: "content10.js"} );
 			}
 		}
 	}

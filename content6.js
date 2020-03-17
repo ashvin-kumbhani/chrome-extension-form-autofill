@@ -16,19 +16,19 @@ function gotMessage(msg, response, sender) {
 		console.log(msg)
     setTimeout(function(){
       document.getElementsByName("vinNumber")[0].value = msg.payload.vin
-    }, 1000)
+    }, 500)
     setTimeout(function(){
       document.getElementsByName("vehPriColor")[0].value = mapColor(msg.payload.color)
-    }, 2000)
+    }, 1000)
     setTimeout(function(){
       document.getElementsByName("transferPlate")[1].click()
-    }, 3000)
+    }, 1500)
     setTimeout(function(){
       document.getElementsByName("ownerQuestion")[1].click()
-    }, 4000)
+    }, 2000)
     setTimeout(function(){
       document.getElementsByClassName("button140First")[0].click()
-    }, 5000)
+    }, 2500)
 
 		}
 		// var port = chrome.runtime.connect({name: "knockknock2"});

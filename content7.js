@@ -15,18 +15,18 @@ function gotMessage(msg, response, sender) {
 
 		setTimeout(function(){
 			document.getElementsByName("driverLicense1")[0].value = liscenceNo
-		}, 1000)
+		}, 500)
 		setTimeout(function(){
 			document.getElementsByName("monthOfBirth1")[0].value = date
-		}, 2000)
+		}, 1000)
 		setTimeout(function(){
 			document.getElementsByName("dayOfBirth1")[0].value = month
-		}, 3000)
+		}, 1500)
 		setTimeout(function(){
 			document.getElementsByName("yearOfBirth1")[0].value = year
-		}, 4000)
+		}, 2000)
 		setTimeout(function(){
 			document.getElementsByName("continue")[0].click()
-		}, 5000)
+		}, 2500)
 	}
 }

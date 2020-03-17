@@ -17,15 +17,15 @@ function gotMessage(message, sender, sendResponse) {
 	// Fill email
 	setTimeout(function() {
 		document.getElementsByName('username')[0].value = 'james@usedvwaudi.com'
-	}, 2000)
+	}, 500)
 
 	// Fill password
 	setTimeout(function(){
 		document.getElementsByName('password')[0].value = 'james110'
-	}, 4000)
+	}, 1000)
 
 	// Click the login button
 	setTimeout(function(){
 		document.getElementsByClassName('button100First')[0].click()
-	}, 5000)
+	}, 1500)
 }
