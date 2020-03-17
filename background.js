@@ -4,7 +4,9 @@ console.log("Running bacckground...")
 //       console.log('window.performance.navigation.type', window.performance.navigation.type)
 // });
 // chrome.tabs.executeScript(null, {file: "fetchdata.js"} );
-chrome.browserAction.onClicked.addListener(buttonClicked)
+
+// chrome.browserAction.onClicked.addListener(buttonClicked)
+let runScript = null
 let runContent4 = false
 let runContent6 = false
 
@@ -16,18 +18,39 @@ var issueTRPUrl = "https://secure.servicearizona.com/az/mvd/dealer/webapp/dealer
 var TRPUrl = "https://secure.servicearizona.com/az/mvd/dealer/webapp/dealer/trp/issue.do"
 var ownerInfoUrl = "https://secure.servicearizona.com/az/mvd/dealer/webapp/enterOwnerInfo.do"
 var registrationUrl = "https://secure.servicearizona.com/az/mvd/dealer/webapp/showOwnerInfo.do"
+var confirmInfoUrl = "https://secure.servicearizona.com/az/mvd/dealer/webapp/showConfirmInfo.do"
 
 var payload = null
 
 var extensionButtonClicked = false
 
 chrome.runtime.onConnect.addListener(function(port) {
-  console.assert(port.name == "knockknock");
-  port.onMessage.addListener(function(msg) {
-    console.log("------------>msg-->", msg)
-    payload = msg
-  })
+	if (port.name == "knockknock") {
+		console.assert(port.name == "knockknock")
+  	port.onMessage.addListener(function(msg) {
+	    console.log("------------>msg-->", msg)
+	    payload = msg
+  	})
+	} else if (port.name == "knockknock2") {
+		console.assert(port.name == "knockknock2")
+  	port.onMessage.addListener(function(msg) {
+	    console.log("------------>msg-->", msg)
+	    if (msg.payload.from === "trp") {
+	    	runScript = msg.payload.from
+	    	buttonClickedTrp(msg.payload.tabInfo)
+	    }
+	    // payload = msg
+  	})
+	}
 })
+
+// chrome.runtime.onConnect.addListener(function(port) {
+  // console.assert(port.name == "knockknock2")
+  // port.onMessage.addListener(function(msg) {
+  //   console.log("------------>msg-->", msg)
+  //   // payload = msg
+  // })
+// })
 
 // chrome.runtime.onConnect.addListener(function(port) {
 //   console.assert(port.name == "knockknock2");
@@ -37,8 +60,9 @@ chrome.runtime.onConnect.addListener(function(port) {
 //   })
 // })
 
-function buttonClicked(tab) {
+function buttonClickedTrp (tab) {
 	console.log("button clicked", tab)
+	runContent4 = false
 	chrome.tabs.executeScript(tab.id, {file: "fetchdata.js"} );
 	chrome.tabs.create({ url: arizonaLink }, function(tab2) {
     console.log(tab2)
@@ -47,50 +71,56 @@ function buttonClicked(tab) {
 }
 
 chrome.tabs.onUpdated.addListener(function(tabId,changeInfo,tab){
-	console.log(tab, "<<<<----------tab")
-	chrome.tabs.sendMessage(tab.id, tab)
-	if (extensionButtonClicked) {
-		// chrome.tabs.executeScript(tab2.id, {file: "content.js"})
-		if (tab.url === arizonaLink && performance.navigation.type === 0) {
-			chrome.tabs.executeScript(tab.id, {file: "content.js"} );
-		}
-
-		if (tab.url === userHomeUrl) {
-			chrome.tabs.executeScript(tab.id, {file: "content2.js"} );
-		}
-
-		if (tab.url === secureGatewayUrl && runContent4 === false) {
-			chrome.tabs.executeScript(tab.id, {file: "content3.js"} );
-			runContent4 = true
-		}
-
-		if (tab.url === DealerServiceUrl) {
-			chrome.tabs.executeScript(tab.id, {file: "content4.js"} );
-		}
-
-		if (tab.url === issueTRPUrl) {
-			chrome.tabs.executeScript(tab.id, {file: "content5.js"} );
-		}
-
-		if (tab.url === TRPUrl) {
-			console.log(payload)
-			if (payload != null) {
-				console.log("payload------->", payload)
-				chrome.tabs.sendMessage(tab.id, payload)
+	if (runScript === "trp") {
+		console.log(tab, "<<<<----------tab")
+		chrome.tabs.sendMessage(tab.id, tab)
+		if (extensionButtonClicked) {
+			// chrome.tabs.executeScript(tab2.id, {file: "content.js"})
+			if (tab.url === arizonaLink && performance.navigation.type === 0) {
+				chrome.tabs.executeScript(tab.id, {file: "content.js"} );
 			}
-			chrome.tabs.executeScript(tab.id, {file: "content6.js"} );
-		}
 
-		if (tab.url === ownerInfoUrl) {
-			if (payload != null) {
-				console.log("payload------->", payload)
-				chrome.tabs.sendMessage(tab.id, payload)
+			if (tab.url === userHomeUrl) {
+				chrome.tabs.executeScript(tab.id, {file: "content2.js"} );
 			}
-			chrome.tabs.executeScript(tab.id, {file: "content7.js"} );
-		}
 
-		if (tab.url === registrationUrl) {
-			chrome.tabs.executeScript(tab.id, {file: "content8.js"} );
+			if (tab.url === secureGatewayUrl && runContent4 === false) {
+				chrome.tabs.executeScript(tab.id, {file: "content3.js"} );
+				runContent4 = true
+			}
+
+			if (tab.url === DealerServiceUrl) {
+				chrome.tabs.executeScript(tab.id, {file: "content4.js"} );
+			}
+
+			if (tab.url === issueTRPUrl) {
+				chrome.tabs.executeScript(tab.id, {file: "content5.js"} );
+			}
+
+			if (tab.url === TRPUrl) {
+				console.log(payload)
+				if (payload != null) {
+					console.log("payload------->", payload)
+					chrome.tabs.sendMessage(tab.id, payload)
+				}
+				chrome.tabs.executeScript(tab.id, {file: "content6.js"} );
+			}
+
+			if (tab.url === ownerInfoUrl) {
+				if (payload != null) {
+					console.log("payload------->", payload)
+					chrome.tabs.sendMessage(tab.id, payload)
+				}
+				chrome.tabs.executeScript(tab.id, {file: "content7.js"} );
+			}
+
+			if (tab.url === registrationUrl) {
+				chrome.tabs.executeScript(tab.id, {file: "content8.js"} );
+			}
+
+			if (tab.url === confirmInfoUrl) {
+				chrome.tabs.executeScript(tab.id, {file: "content9.js"} );
+			}
 		}
 	}
 });
