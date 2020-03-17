@@ -83,7 +83,7 @@ chrome.tabs.onUpdated.addListener(function(tabId,changeInfo,tab){
 
 		if (extensionButtonClicked) {
 			// chrome.tabs.executeScript(tab2.id, {file: "content.js"})
-			if (tab.url === arizonaLink && performance.navigation.type === 0) {
+			if (tab.url === arizonaLink) {
 				chrome.tabs.executeScript(tab.id, {file: "content.js"} );
 			}
 
