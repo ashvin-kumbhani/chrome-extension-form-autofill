@@ -20,7 +20,7 @@ b.addEventListener('click', function () {
   	let msg = {message: "90day clicked", from: "90day", tabInfo: tab[0]}
   	console.log("tab", tab)
   	// chrome.tabs.sendMessage(tab[0].id, msg)
-  	let port = chrome.runtime.connect({name: "knockknock2"})
+  	let port = chrome.runtime.connect({name: "knockknock3"})
 		port.postMessage({payload: msg})
   }
 })
